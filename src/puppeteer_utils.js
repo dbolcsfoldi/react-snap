@@ -203,11 +203,12 @@ const crawl = async opt => {
         beforeFetch && beforeFetch({ page, route });
         await page.setUserAgent(options.userAgent);
 
-        if (options.auth && options.auth) {
-          await page.authenticate(options.auth)
+        if (options.auth) {
+          const { username, password } = options.auth;
+          await page.authenticate({ username, password });
         }
 
-        const tracker = createTracker(page)
+        const tracker = createTracker(page);
         try {
           await page.goto(pageUrl, { waitUntil: "networkidle0" });
         } catch (e) {
